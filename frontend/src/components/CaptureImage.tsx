@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
   handleCapture: (dataUri: string) => void;
 };
 
-const CaptureImage = ({ handleCapture }: Props) => {
-  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+const CaptureImage = ({ }: Props) => {
+  const [, setMediaStream] = useState<MediaStream | null>(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
 
   const handleOpenCamera = async () => {
@@ -28,24 +28,6 @@ const CaptureImage = ({ handleCapture }: Props) => {
     }
   };
 
-  const handleCaptureImage = () => {
-    const videoElement = document.getElementById(
-      "camera-preview"
-    ) as HTMLVideoElement;
-    if (videoElement) {
-      const canvas = document.createElement("canvas");
-      canvas.width = videoElement.videoWidth;
-      canvas.height = videoElement.videoHeight;
-      const ctx = canvas.getContext("2d");
-      if (ctx) {
-        ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        const dataUri = canvas.toDataURL("image/png");
-        handleCapture(dataUri);
-        setIsCameraOpen(false); // Close the camera view
-        setMediaStream(null); // Release the camera stream
-      }
-    }
-  };
 
   return (
     <div className="capture-image">
