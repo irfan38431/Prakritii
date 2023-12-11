@@ -10,7 +10,7 @@ const MenuIcon: React.FC<MenuIconProps> = ({ classText }) => {
   const [contactDropdownVisible, setContactDropdownVisible] = useState(false);
 
   const handleLiveConsultation = () => {
-    window.location.href = "https://wa.me/919445077270";
+    window.location.href = "https://wa.me/918883685621";
   };
 
   const handleContactUs = () => {
