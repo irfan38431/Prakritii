@@ -1,11 +1,10 @@
-import React from "react";
 
 type Props = {
   classText: string;
   handleOpenCamera: () => void;
 };
 
-function CameraIcon({ classText, handleOpenCamera }: Props) {
+function CameraIcon({ handleOpenCamera }: Props) {
   return (
     <>
       <button onClick={handleOpenCamera} className="bg-white p-4 rounded-full">
