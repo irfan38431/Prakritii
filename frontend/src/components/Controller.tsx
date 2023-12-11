@@ -3,6 +3,7 @@ import Title from "./Title";
 import axios from "axios";
 import RecordMessage from "./RecordMessage";
 import ChatBubble from "./ChatBubble";
+import CaptureImage from "./CaptureImage";
 
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -99,7 +100,11 @@ const Controller = () => {
       handleTextMessageSend();
     }
   };
-
+  const handleCaptureImage = (dataUri: string) => {
+    // Construct the message containing the image data and sender information
+    const imageMessage = { sender: "me", imageData: dataUri };
+    setMessages((prevMessages) => [...prevMessages, imageMessage]);
+  };
   useEffect(() => {
     // You can use this useEffect to initialize your conversation or fetch previous messages
   }, []);
@@ -109,7 +114,7 @@ const Controller = () => {
       {/* Title */}
       <Title setMessages={setMessages} />
 
-      <div className="flex flex-col justify-between h-full overflow-y-scroll pb-96 border-t-green-700">
+      <div className="flex flex-col justify-between h-full overflow-y-scroll pb-90 border-t-green-700">
         {/* Conversation */}
         <div className="mt-5 px-5">
           {messages?.map((message, index) => (
@@ -155,27 +160,26 @@ const Controller = () => {
           )}
         </div>
 
-        {/* Recorder */}
-        <div className="fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
-          <div className="flex justify-end items-center w-full">
-            <div className="flex-grow">
-              <input
-                type="text"
-                className="w-full border rounded p-2"
-                placeholder="Type your message..."
-                value={textMessage}
-                onChange={(e) => setTextMessage(e.target.value)}
-                onKeyPress={handleKeyPress} // Handle Enter key press
-              />
-            </div>
+ {/* Recorder */}
+ <div className="fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
+          <div className="flex justify-between items-center w-70 px-4">
+            <input
+              type="text"
+              className="w-full sm:w-4/5 md:w-full lg:w-5/6 border rounded p-2"
+              placeholder="Type your message..."
+              value={textMessage}
+              onChange={(e) => setTextMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
             <button
-              className="p-2 bg-green-500 text-white rounded hover:bg-green-600 ml-2"
+              className="my-button p-2 border-black border rounder bg-green-500 text-white rounded hover:bg-green-600 ml-2 "
               onClick={handleTextMessageSend}
             >
               Send
             </button>
             <div>
               <RecordMessage handleStop={handleStop} />
+              <CaptureImage handleCapture={handleCaptureImage} />
             </div>
           </div>
         </div>
@@ -183,5 +187,7 @@ const Controller = () => {
     </div>
   );
 };
+
+
 
 export default Controller;
