@@ -18,7 +18,7 @@ const MenuIcon: React.FC<MenuIconProps> = ({ classText }) => {
   };
 
   const handleContactViaWhatsApp = () => {
-    window.open("https://wa.me/919445077270","_blank");
+    window.open("https://wa.me/918883685621","_blank");
   };
 
   const handleContactViaEmail = () => {
