@@ -8,3 +8,16 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+.my-button {
+  position: absolute;
+  top: 50%;
+  left: 85%;
+  transform: translate(-50%, -50%);
+ }
+ .record-icon{
+  position: absolute;
+  top: 57%;
+  left: 91.5%;
+  transform: translate(-50%, -50%);
+ }
