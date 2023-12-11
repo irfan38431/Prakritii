@@ -12,7 +12,7 @@ function RecordIcon({ classText }: Props) {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className={"w-12 h-12 " + classText}
+        className={"w-6 h-6 " + classText}
       >
         <path
           strokeLinecap="round"
