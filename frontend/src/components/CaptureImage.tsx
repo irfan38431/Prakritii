@@ -46,7 +46,7 @@ const CaptureImage = ({ handleCapture }: Props) => {
           setMediaStream(null); // Set mediaStream to null to remove the preview
           setIsCameraOpen(false);
         })
-        .catch((error) => {
+        .catch((error:any) => {
           console.error("Error taking photo:", error);
         });
     }
