@@ -2,7 +2,7 @@ import  { useState, useEffect } from "react";
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
-  handleCapture: (imageUrl: string) => void;
+  handleCapture: (imageUrl: imageUrl) => void;
 };
 
 const CaptureImage = ({ handleCapture }: Props) => {
