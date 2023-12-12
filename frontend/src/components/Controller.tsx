@@ -100,11 +100,13 @@ const Controller = () => {
       handleTextMessageSend();
     }
   };
-  const handleCaptureImage = (dataUri: string) => {
-    // Construct the message containing the image data and sender information
-    const imageMessage = { sender: "me", imageData: dataUri };
-    setMessages((prevMessages) => [...prevMessages, imageMessage]);
+  const handleCaptureImage = () => {
+    const prakritiMessage = { sender: "Prakriti", textMessage: "Work under progress,please try again later..." };
+    setMessages((prevMessages) => [...prevMessages, prakritiMessage]);
+  
+    // Additional logic with 'dataUri' if required
   };
+  
   useEffect(() => {
     // You can use this useEffect to initialize your conversation or fetch previous messages
   }, []);
@@ -165,7 +167,7 @@ const Controller = () => {
           <div className="flex justify-between items-center w-70 px-4">
             <input
               type="text"
-              className="w-full sm:w-4/5 md:w-full lg:w-5/6 border rounded p-2"
+              className="w-full sm:w-3/5 md:w-full lg:w-5/6 border rounded p-2"
               placeholder="Type your message..."
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
@@ -179,7 +181,9 @@ const Controller = () => {
             </button>
             <div>
               <RecordMessage handleStop={handleStop} />
-              <CaptureImage handleCapture={handleCaptureImage} />
+              <CaptureImage handleCapture={handleCaptureImage} sendMessage={function (): void {
+                throw new Error("Function not implemented.");
+              } } />
             </div>
           </div>
         </div>
