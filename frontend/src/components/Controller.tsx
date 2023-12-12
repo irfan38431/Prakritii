@@ -116,9 +116,9 @@ const Controller = () => {
       {/* Title */}
       <Title setMessages={setMessages} />
 
-      <div className="flex flex-col justify-between h-full overflow-y-scroll pb-90 border-t-green-700">
+      <div className="flex flex-col justify-between h-full  pb-90 border-t-green-700 relative">
         {/* Conversation */}
-        <div className="mt-5 px-5">
+        <div className="mt-5 px-50 chat-container">
           {messages?.map((message, index) => (
             <div
               key={index + message.sender}
