@@ -179,8 +179,9 @@ const Controller = () => {
             >
               Send
             </button>
+            <div className="record-icon">
+              <RecordMessage handleStop={handleStop} /> </div>
             <div>
-              <RecordMessage handleStop={handleStop} />
               <CaptureImage handleCapture={handleCaptureImage} sendMessage={function (): void {
                 throw new Error("Function not implemented.");
               } } />
