@@ -4,6 +4,7 @@ import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 type Props = {
   handleCapture: (imageUrl: string) => void;
 };
+
 const CaptureImage = ({ handleCapture }: Props) => {
   const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
   const [isCameraOpen, setIsCameraOpen] = useState(false);
@@ -26,32 +27,38 @@ const CaptureImage = ({ handleCapture }: Props) => {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       setMediaStream(stream);
       setIsCameraOpen(true);
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error accessing the camera:", error);
     }
   };
 
   const handleCaptureClick = () => {
     if (mediaStream) {
-      const videoTrack = mediaStream.getVideoTracks()[0];
-      const imageCapture = new ImageCapture(videoTrack);
-      imageCapture
-        .takePhoto()
-        .then((blob: MediaSource | Blob) => {
-          const imageUrl = URL.createObjectURL(blob);
+      const videoElement = document.getElementById(
+        "camera-preview"
+      ) as HTMLVideoElement;
+
+      if (videoElement) {
+        const canvas = document.createElement("canvas");
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+
+        const context = canvas.getContext("2d");
+        if (context) {
+          context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+          const imageUrl = canvas.toDataURL("image/png");
           handleCapture(imageUrl);
-  
-          // Pause the video track to stop camera preview
-          videoTrack.stop();
-          setMediaStream(null); // Set mediaStream to null to remove the preview
-          setIsCameraOpen(false);
-        })
-        .catch((error:any) => {
-          console.error("Error taking photo:", error);
-        });
+        }
+
+        // Pause the video track to stop camera preview
+        const videoTrack = mediaStream.getVideoTracks()[0];
+        videoTrack.stop();
+        setMediaStream(null); // Set mediaStream to null to remove the preview
+        setIsCameraOpen(false);
+
+      }
     }
   };
-  
 
   return (
     <div className="capture-image">
