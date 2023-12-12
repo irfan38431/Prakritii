@@ -22,7 +22,7 @@ body {
   transform: translate(-50%, -50%);
  }
  .chat-container {
-  height: calc(100vh - 180px); /* Adjust the height as needed */
+  height: calc(100vh - 200px); /* Adjust the height as needed */
   overflow-y: auto;
 }
 
