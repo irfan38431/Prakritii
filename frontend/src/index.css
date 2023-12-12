@@ -21,3 +21,12 @@ body {
   left: 91.5%;
   transform: translate(-50%, -50%);
  }
+ .chat-container {
+  height: calc(100vh - 180px); /* Adjust the height as needed */
+  overflow-y: auto;
+}
+
+/* Ensure the messages list fills the container */
+.messages-list {
+  height: max-content;
+}
