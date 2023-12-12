@@ -1,22 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
-  handleCapture: (dataUri: string) => void;
-  sendMessage: (message: string) => void; // Assume you're passing a sendMessage function as a prop
+  handleCapture: (imageUrl: string) => void;
 };
+const CaptureImage = ({ handleCapture }: Props) => {
+  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
 
-const CaptureImage = ({ sendMessage, handleCapture }: Props) => {
-  const [isCameraOpen] = useState(false);
+  useEffect(() => {
+    if (mediaStream && isCameraOpen) {
+      const videoElement = document.getElementById(
+        "camera-preview"
+      ) as HTMLVideoElement;
 
-  const handleOpenCamera = () => {
-    // Simulate a dataUri for demonstration purposes
-    const dataUri = "example_data_uri_string"; // Replace this with your actual dataUri
+      if (videoElement) {
+        videoElement.srcObject = mediaStream;
+        videoElement.play();
+      }
+    }
+  }, [mediaStream, isCameraOpen]);
 
-    // Call the handleCapture function with the dataUri
-    handleCapture(dataUri);
-    sendMessage("Work under progress,please try again later...");
+  const handleOpenCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setMediaStream(stream);
+      setIsCameraOpen(true);
+    } catch (error) {
+      console.error("Error accessing the camera:", error);
+    }
   };
+
+  const handleCaptureClick = () => {
+    if (mediaStream) {
+      const videoTrack = mediaStream.getVideoTracks()[0];
+      const imageCapture = new ImageCapture(videoTrack);
+      imageCapture
+        .takePhoto()
+        .then((blob: MediaSource | Blob) => {
+          const imageUrl = URL.createObjectURL(blob);
+          handleCapture(imageUrl);
+  
+          // Pause the video track to stop camera preview
+          videoTrack.stop();
+          setMediaStream(null); // Set mediaStream to null to remove the preview
+          setIsCameraOpen(false);
+        })
+        .catch((error) => {
+          console.error("Error taking photo:", error);
+        });
+    }
+  };
+  
+
   return (
     <div className="capture-image">
       {!isCameraOpen && (
@@ -28,7 +64,8 @@ const CaptureImage = ({ sendMessage, handleCapture }: Props) => {
 
       {isCameraOpen && (
         <div className="camera-preview">
-          <video id="camera-preview" className="w-64 h-48" autoPlay muted />
+          <video id="camera-preview" className="w-64 h-48" autoPlay muted playsInline />
+          <button onClick={handleCaptureClick}>Capture</button>
         </div>
       )}
     </div>
