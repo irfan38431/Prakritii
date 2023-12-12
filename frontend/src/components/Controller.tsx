@@ -100,7 +100,7 @@ const Controller = () => {
       handleTextMessageSend();
     }
   };
-  const handleCaptureImage = (imageUrl: string) => {
+  const handleCaptureImage = (imageUrl: imageUrl) => {
     // Construct the message containing the image data and sender information
     const imageMessage = { sender: "me", imageData: imageUrl };
     setMessages((prevMessages) => [...prevMessages, imageMessage]);
