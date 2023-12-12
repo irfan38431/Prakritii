@@ -1,34 +1,22 @@
-import  { useState } from "react";
+import { useState } from "react";
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
   handleCapture: (dataUri: string) => void;
+  sendMessage: (message: string) => void; // Assume you're passing a sendMessage function as a prop
 };
 
-const CaptureImage = ({ }: Props) => {
-  const [, setMediaStream] = useState<MediaStream | null>(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
+const CaptureImage = ({ sendMessage, handleCapture }: Props) => {
+  const [isCameraOpen] = useState(false);
 
-  const handleOpenCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      setMediaStream(stream);
-      setIsCameraOpen(true);
+  const handleOpenCamera = () => {
+    // Simulate a dataUri for demonstration purposes
+    const dataUri = "example_data_uri_string"; // Replace this with your actual dataUri
 
-      // Display the camera stream in a video element
-      const videoElement = document.getElementById(
-        "camera-preview"
-      ) as HTMLVideoElement;
-      if (videoElement && stream) {
-        videoElement.srcObject = stream;
-        videoElement.play();
-      }
-    } catch (error) {
-      console.error("Error accessing the camera:", error);
-    }
+    // Call the handleCapture function with the dataUri
+    handleCapture(dataUri);
+    sendMessage("Work under progress,please try again later...");
   };
-
-
   return (
     <div className="capture-image">
       {!isCameraOpen && (
