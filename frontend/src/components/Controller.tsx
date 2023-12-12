@@ -100,11 +100,10 @@ const Controller = () => {
       handleTextMessageSend();
     }
   };
-  const handleCaptureImage = () => {
-    const prakritiMessage = { sender: "Prakriti", textMessage: "Work under progress,please try again later..." };
-    setMessages((prevMessages) => [...prevMessages, prakritiMessage]);
-  
-    // Additional logic with 'dataUri' if required
+  const handleCaptureImage = (imageUrl: string) => {
+    // Construct the message containing the image data and sender information
+    const imageMessage = { sender: "me", imageData: imageUrl };
+    setMessages((prevMessages) => [...prevMessages, imageMessage]);
   };
   
   useEffect(() => {
@@ -139,15 +138,17 @@ const Controller = () => {
                   {message.sender}
                 </p>
 
-                {/* Message */}
+                {/* Display different types of messages */}
                 {message.blobUrl ? (
                   <audio src={message.blobUrl} className="appearance-none" controls />
+                ) : message.imageData ? (
+                  <img src={message.imageData} alt="Captured" className="max-w-xs" />
                 ) : (
                   <ChatBubble message={message.textMessage} sender={message.sender} />
                 )}
               </div>
             </div>
-          ))}
+          ))}
 
           {messages.length === 0 && !isLoading && (
             <div className="text-center font-light italic mt-10">
