@@ -68,24 +68,27 @@ const CaptureImage = ({ handleCapture }: Props) => {
     }
   };
   return (
-    <div className="capture-image">
-    <div className="camera-icon-container">
+    <div>
+      <div>
         <CameraIcon
           classText="text-red-500"
           handleOpenCamera={handleOpenCamera}
         />
-        </div>
-      {isCameraOpen && (
-        <div >
-           <div >
-          <video id="camera-preview" className="w-32 h-32" autoPlay muted playsInline />
-          </div>
-          <button className="capture-button" onClick={handleCaptureClick}>Capture</button>
-        </div>
-        
-      )}
-    </div>
-  );
-};
+      </div>
+      
 
+      {isCameraOpen && (
+        <div className="camera-preview-centered">
+          <div className="camera-container">
+            <div className="camera-preview">
+              <video id="camera-preview" className="w-64 h-48" autoPlay muted playsInline />
+            </div>
+            <button className="capture-button  border-black border rounder text-black rounded hover:bg-white bg-green-500" onClick={handleCaptureClick}>Capture</button>
+          </div>
+        </div>
+      )}
+    </div> 
+  );
+      };
 export default CaptureImage;
+
