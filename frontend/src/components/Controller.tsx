@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Title from "./Title";
 import axios from "axios";
 import RecordMessage from "./RecordMessage";
@@ -11,37 +11,30 @@ const Controller = () => {
   const [messages, setMessages] = useState<any[]>([]);
   const [textMessage, setTextMessage] = useState("");
 
-  // Function to handle receiving a message from the chatbot
   const receiveMessage = (message: string) => {
     const botMessage = { sender: "Prakriti", textMessage: message };
     setMessages((prevMessages) => [...prevMessages, botMessage]);
   };
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const imagesEndRef = useRef<HTMLImageElement>(null); // Reference for images
+  const imagesEndRef = useRef<HTMLImageElement>(null);
 
   const createBlobURL = (data: any) => {
     const blob = new Blob([data], { type: "audio/mpeg" });
     return window.URL.createObjectURL(blob);
   };
+
   const handleGalleryUpload = (file: File) => {
-    // Assuming you want to display the image in the chat immediately after selection
     const imageUrl = URL.createObjectURL(file);
-    
-    // Create a message object for the uploaded image
     const imageMessage = { sender: "me", imageData: imageUrl };
-    
-    // Append the image message to the messages list
     setMessages((prevMessages) => [...prevMessages, imageMessage]);
-  
-    // Set a timeout to scroll to the latest image after it's rendered
+
     setTimeout(() => {
       if (imagesEndRef.current) {
         imagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
       }
     }, 100);
-  
+
     console.log("Uploaded file:", file);
-    // Perform further processing as needed (e.g., sending the image to a server)
   };
   
   const handleStop = async (blobUrl: string) => {
@@ -148,12 +141,10 @@ const Controller = () => {
 
 
   return (
-    <div className="h-screen overflow-y-hidden  bg-green-100">
-      {/* Title */}
+    <div className="h-screen overflow-y-hidden bg-green-100">
       <Title setMessages={setMessages} />
 
-      <div className=" messages-list flex flex-col justify-between h-full  pb-90 border-t-green-700 relative">
-        {/* Conversation */}
+      <div className="messages-list flex flex-col justify-between h-full pb-90 border-t-green-700 relative">
         <div className="mt-5 px-50 p-2 chat-container ">
           {messages?.map((message, index) => (
             <div
@@ -163,7 +154,6 @@ const Controller = () => {
                 (message.sender === "Prakriti" && "flex items-end")
               }
             >
-              {/* Sender */}
               <div className="mt-4">
                 <p
                   className={
@@ -175,7 +165,6 @@ const Controller = () => {
                   {message.sender}
                 </p>
 
-                {/* Display different types of messages */}
                 {message.blobUrl ? (
                   <audio src={message.blobUrl} className="appearance-none" controls />
                 ) : message.imageData ? (
@@ -185,7 +174,7 @@ const Controller = () => {
                 )}
               </div>
             </div>
-          ))}
+          ))}
 
           {messages.length === 0 && !isLoading && (
             <div className="text-center font-light italic mt-10">
@@ -198,12 +187,10 @@ const Controller = () => {
               Gimme a few seconds...
             </div>
           )}
-          {/* Scroll to the latest message */}
           <div ref={messagesEndRef} />
         </div>
 
- {/* Recorder */}
- <div className="fixed bottom-0 w-full pt-3 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
+        <div className="fixed bottom-0 w-full pt-3 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
           <div className="d-flex flex-row">
             <input
               type="text"
@@ -221,22 +208,19 @@ const Controller = () => {
             </button>
             <div className="record-icon ">
               <RecordMessage handleStop={handleStop} /> 
-              </div>
-            <div id="cam" className="">
+            </div>
+            <div id="cam">
               <CaptureImage handleCapture={handleCaptureImage}/>
             </div>
             <div>
-               {/* File uploader component */}
               <UpFile handleGalleryUpload={handleGalleryUpload} />
             </div>
-  
           </div>
         </div>
       </div>
     </div>
   );
 };
-
 
 
 export default Controller;
