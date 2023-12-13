@@ -4,7 +4,7 @@ import axios from "axios";
 import RecordMessage from "./RecordMessage";
 import ChatBubble from "./ChatBubble";
 import CaptureImage from "./CaptureImage";
-
+import UpFile from './upfile';
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
@@ -100,7 +100,7 @@ const Controller = () => {
       handleTextMessageSend();
     }
   };
-  const handleCaptureImage = (imageUrl: imageUrl) => {
+  const handleCaptureImage = (imageUrl: string) => {
     // Construct the message containing the image data and sender information
     const imageMessage = { sender: "me", imageData: imageUrl };
     setMessages((prevMessages) => [...prevMessages, imageMessage]);
@@ -109,6 +109,10 @@ const Controller = () => {
   useEffect(() => {
     // You can use this useEffect to initialize your conversation or fetch previous messages
   }, []);
+
+  function handleGalleryUpload(_file: File): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <div className="h-screen overflow-y-hidden bg-green-100">
@@ -182,11 +186,11 @@ const Controller = () => {
             </button>
             <div className="record-icon">
               <RecordMessage handleStop={handleStop} /> </div>
-            <div>
-              <CaptureImage handleCapture={handleCaptureImage} sendMessage={function (): void {
-                throw new Error("Function not implemented.");
-              } } />
+            <div className="cam-ico">
+              <CaptureImage handleCapture={handleCaptureImage}
+              />
             </div>
+
           </div>
         </div>
       </div>
