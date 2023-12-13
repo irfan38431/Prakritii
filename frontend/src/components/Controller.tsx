@@ -1,5 +1,4 @@
 import React, { useState, useEffect ,useRef} from "react";
-import 'bootstrap/dist/css/bootstrap.css'
 import Title from "./Title";
 import axios from "axios";
 import RecordMessage from "./RecordMessage";
