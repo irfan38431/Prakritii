@@ -25,10 +25,26 @@ const Controller = () => {
     return window.URL.createObjectURL(blob);
   };
   const handleGalleryUpload = (file: File) => {
-    // Add your logic to handle uploaded image file
+    // Assuming you want to display the image in the chat immediately after selection
+    const imageUrl = URL.createObjectURL(file);
+    
+    // Create a message object for the uploaded image
+    const imageMessage = { sender: "me", imageData: imageUrl };
+    
+    // Append the image message to the messages list
+    setMessages((prevMessages) => [...prevMessages, imageMessage]);
+  
+    // Set a timeout to scroll to the latest image after it's rendered
+    setTimeout(() => {
+      if (imagesEndRef.current) {
+        imagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }, 100);
+  
     console.log("Uploaded file:", file);
     // Perform further processing as needed (e.g., sending the image to a server)
   };
+  
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
 
@@ -133,13 +149,13 @@ const Controller = () => {
 
 
   return (
-    <div className="h-screen overflow-y-hidden bg-green-100">
+    <div className="h-screen overflow-y-hidden  bg-green-100">
       {/* Title */}
       <Title setMessages={setMessages} />
 
       <div className=" messages-list flex flex-col justify-between h-full  pb-90 border-t-green-700 relative">
         {/* Conversation */}
-        <div className="mt-5 px-50 chat-container ">
+        <div className="mt-5 px-50 p-2 chat-container ">
           {messages?.map((message, index) => (
             <div
               key={index + message.sender}
