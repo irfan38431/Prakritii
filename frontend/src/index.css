@@ -10,17 +10,13 @@ body {
 }
 
 .my-button {
-  position: absolute;
-  top: 50%;
-  left: 84%;
-  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 40px;
  }
- .record-icon{
-  position: absolute;
-  top: 57%;
-  left: 88.9%;
-  transform: translate(-50%, -50%);
+ .text-input{
+  height: 40px;
  }
+
  .chat-container {
   height: calc(100vh - 180px); /* Adjust the height as needed */
   overflow-y: auto;
@@ -28,12 +24,8 @@ body {
 
 /* Ensure the messages list fills the container */
 .messages-list {
-  height: max-content;
+  overflow-y: auto; /* Enable vertical scrollbar */
+  height: calc(100vh - 200px); /* Adjust the height based on your UI, this value is indicative */
 }
 
-.cam-ico{
-  position:absolute;
-  top:18;
-  left:91.3%;
-}
 
