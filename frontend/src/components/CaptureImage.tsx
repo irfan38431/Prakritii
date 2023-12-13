@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.css'
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
