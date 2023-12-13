@@ -125,9 +125,6 @@ const Controller = () => {
   }, [messages, messagesEndRef, imagesEndRef]); // Trigger autoscroll on messages and images change
 
 
-  function handleGalleryUpload(_file: File): void {
-    throw new Error("Function not implemented.");
-  }
 
   return (
     <div className="h-screen overflow-y-hidden bg-green-100">
@@ -196,7 +193,7 @@ const Controller = () => {
               onKeyPress={handleKeyPress}
             />
             <button
-              className="my-button mt-2 border-black border rounder bg-green-500 text-white rounded hover:bg-green-600 "
+              className="my-button mt-2 border-black border rounder bg-green-500 text-black rounded hover:bg-white "
               onClick={handleTextMessageSend}
             >
               Send
@@ -204,13 +201,9 @@ const Controller = () => {
             <div className="record-icon ">
               <RecordMessage handleStop={handleStop} /> 
               </div>
-            <div className="">
+            <div id="cam" className="">
               <CaptureImage handleCapture={handleCaptureImage}
               />
-            </div>
-             {/* UpFile component for uploading images */}
-             <div className="fileup">
-              <UpFile handleGalleryUpload={handleGalleryUpload} />
             </div>
           </div>
         </div>
