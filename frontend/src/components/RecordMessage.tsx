@@ -11,11 +11,11 @@ const RecordMessage = ({ handleStop }: Props) => {
       audio
       onStop={handleStop}
       render={({ status, startRecording, stopRecording }) => (
-        <div className="mt-2">
+        <div className="ml-2">
           <button
             onMouseDown={startRecording}
             onMouseUp={stopRecording}
-            className="bg-white p-4 rounded-full"
+            className=" bg-white p-3 mt-1 rounded-full"
           >
             <RecordIcon
               classText={
