@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import 'bootstrap/dist/css/bootstrap.css'
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
@@ -45,36 +46,43 @@ const CaptureImage = ({ handleCapture }: Props) => {
 
         const context = canvas.getContext("2d");
         if (context) {
+          // Draw the current frame from the video onto the canvas
           context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+          // Get the image data as a data URL (PNG format)
           const imageUrl = canvas.toDataURL("image/png");
-          handleCapture(imageUrl);
+          handleCapture(imageUrl); // Pass the captured image URL to the parent component
+
+          // Stop the video track and reset states to close the camera preview
+          const videoTrack = mediaStream.getVideoTracks()[0];
+          videoTrack.stop();
+          setMediaStream(null);
+          setIsCameraOpen(false);
+        } else {
+          console.error("Context not available");
         }
-
-        // Pause the video track to stop camera preview
-        const videoTrack = mediaStream.getVideoTracks()[0];
-        videoTrack.stop();
-        setMediaStream(null); // Set mediaStream to null to remove the preview
-        setIsCameraOpen(false);
-
+      } else {
+        console.error("Video element not found");
       }
+    } else {
+      console.error("Media stream not available");
     }
   };
-
   return (
     <div className="capture-image">
-      {!isCameraOpen && (
+    <div className="camera-icon-container">
         <CameraIcon
           classText="text-red-500"
           handleOpenCamera={handleOpenCamera}
         />
-      )}
-
+        </div>
       {isCameraOpen && (
-        <div className="cam-prev">
-        <div className="camera-preview">
-          <video id="camera-preview" className="w-64 h-48" autoPlay muted playsInline />
-          <button className="camprev"onClick={handleCaptureClick}>Capture</button>
-        </div></div>
+        <div >
+           <div >
+          <video id="camera-preview" className="w-32 h-32" autoPlay muted playsInline />
+          </div>
+          <button className="capture-button" onClick={handleCaptureClick}>Capture</button>
+        </div>
+        
       )}
     </div>
   );
