@@ -5,7 +5,8 @@ import axios from "axios";
 import RecordMessage from "./RecordMessage";
 import ChatBubble from "./ChatBubble";
 import CaptureImage from "./CaptureImage";
-import UpFile from './upfile';
+import UpFile from "./upfile";
+
 const Controller = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<any[]>([]);
@@ -23,7 +24,11 @@ const Controller = () => {
     const blob = new Blob([data], { type: "audio/mpeg" });
     return window.URL.createObjectURL(blob);
   };
-
+  const handleGalleryUpload = (file: File) => {
+    // Add your logic to handle uploaded image file
+    console.log("Uploaded file:", file);
+    // Perform further processing as needed (e.g., sending the image to a server)
+  };
   const handleStop = async (blobUrl: string) => {
     setIsLoading(true);
 
@@ -126,6 +131,7 @@ const Controller = () => {
 
 
 
+
   return (
     <div className="h-screen overflow-y-hidden bg-green-100">
       {/* Title */}
@@ -202,9 +208,13 @@ const Controller = () => {
               <RecordMessage handleStop={handleStop} /> 
               </div>
             <div id="cam" className="">
-              <CaptureImage handleCapture={handleCaptureImage}
-              />
+              <CaptureImage handleCapture={handleCaptureImage}/>
             </div>
+            <div>
+               {/* File uploader component */}
+              <UpFile handleGalleryUpload={handleGalleryUpload} />
+            </div>
+  
           </div>
         </div>
       </div>
