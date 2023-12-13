@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
+import 'bootstrap/dist/css/bootstrap.css'
 import Title from "./Title";
 import axios from "axios";
 import RecordMessage from "./RecordMessage";
@@ -15,6 +16,8 @@ const Controller = () => {
     const botMessage = { sender: "Prakriti", textMessage: message };
     setMessages((prevMessages) => [...prevMessages, botMessage]);
   };
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const imagesEndRef = useRef<HTMLImageElement>(null); // Reference for images
 
   const createBlobURL = (data: any) => {
     const blob = new Blob([data], { type: "audio/mpeg" });
@@ -101,14 +104,26 @@ const Controller = () => {
     }
   };
   const handleCaptureImage = (imageUrl: string) => {
-    // Construct the message containing the image data and sender information
     const imageMessage = { sender: "me", imageData: imageUrl };
     setMessages((prevMessages) => [...prevMessages, imageMessage]);
+    // Set a timeout to scroll to the latest image after it's rendered
+    setTimeout(() => {
+      if (imagesEndRef.current) {
+        imagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }, 100);
   };
   
+ 
   useEffect(() => {
-    // You can use this useEffect to initialize your conversation or fetch previous messages
-  }, []);
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+    if (imagesEndRef.current) {
+      imagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [messages, messagesEndRef, imagesEndRef]); // Trigger autoscroll on messages and images change
+
 
   function handleGalleryUpload(_file: File): void {
     throw new Error("Function not implemented.");
@@ -119,9 +134,9 @@ const Controller = () => {
       {/* Title */}
       <Title setMessages={setMessages} />
 
-      <div className="flex flex-col justify-between h-full  pb-90 border-t-green-700 relative">
+      <div className=" messages-list flex flex-col justify-between h-full  pb-90 border-t-green-700 relative">
         {/* Conversation */}
-        <div className="mt-5 px-50 chat-container">
+        <div className="mt-5 px-50 chat-container ">
           {messages?.map((message, index) => (
             <div
               key={index + message.sender}
@@ -165,32 +180,38 @@ const Controller = () => {
               Gimme a few seconds...
             </div>
           )}
+          {/* Scroll to the latest message */}
+          <div ref={messagesEndRef} />
         </div>
 
  {/* Recorder */}
- <div className="fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
-          <div className="flex justify-between items-center w-70 px-4">
+ <div className="fixed bottom-0 w-full pt-3 border-t text-center bg-gradient-to-r from-green-900 to-green-600">
+          <div className="d-flex flex-row">
             <input
               type="text"
-              className="w-full sm:w-3/5 md:w-full lg:w-5/6 border rounded p-2"
+              className="w-75 rounded p-2 m-2 text-input"
               placeholder="Type your message..."
               value={textMessage}
               onChange={(e) => setTextMessage(e.target.value)}
               onKeyPress={handleKeyPress}
             />
             <button
-              className="my-button p-2 border-black border rounder bg-green-500 text-white rounded hover:bg-green-600 ml-2 "
+              className="my-button mt-2 border-black border rounder bg-green-500 text-white rounded hover:bg-green-600 "
               onClick={handleTextMessageSend}
             >
               Send
             </button>
-            <div className="record-icon">
-              <RecordMessage handleStop={handleStop} /> </div>
-            <div className="cam-ico">
+            <div className="record-icon ">
+              <RecordMessage handleStop={handleStop} /> 
+              </div>
+            <div className="">
               <CaptureImage handleCapture={handleCaptureImage}
               />
             </div>
-
+             {/* UpFile component for uploading images */}
+             <div className="fileup">
+              <UpFile handleGalleryUpload={handleGalleryUpload} />
+            </div>
           </div>
         </div>
       </div>
