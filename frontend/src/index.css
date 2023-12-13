@@ -60,3 +60,9 @@ body {
   cursor: pointer;
   outline: none;
 }
+
+.upload-btn{
+  width: 60px;
+  height: 60px;
+  align-items: center;
+}
