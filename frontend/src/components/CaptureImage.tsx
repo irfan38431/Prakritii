@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CameraIcon from "./CameraIcon"; // Import your CameraIcon component
 
 type Props = {
@@ -27,7 +27,7 @@ const CaptureImage = ({ handleCapture }: Props) => {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       setMediaStream(stream);
       setIsCameraOpen(true);
-    } catch (error:any) {
+    } catch (error) {
       console.error("Error accessing the camera:", error);
     }
   };
@@ -70,10 +70,11 @@ const CaptureImage = ({ handleCapture }: Props) => {
       )}
 
       {isCameraOpen && (
+        <div className="cam-prev">
         <div className="camera-preview">
           <video id="camera-preview" className="w-64 h-48" autoPlay muted playsInline />
-          <button onClick={handleCaptureClick}>Capture</button>
-        </div>
+          <button className="camprev"onClick={handleCaptureClick}>Capture</button>
+        </div></div>
       )}
     </div>
   );
